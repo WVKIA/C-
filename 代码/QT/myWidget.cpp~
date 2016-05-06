@@ -1,0 +1,24 @@
+#include "myWidget.h"
+myWidget::myWidget(QWidget *p ,Qt::WindowFlags f ):QWidget(p,f)
+{
+    b1.setText(QString ("yes"));
+    b2.setText(QString ("no"));
+	lay.addWidget(&t1);
+	lay.addWidget(&t2);
+    lay.addWidget(&b1);
+    lay.addWidget(&b2);
+    setLayout(&lay);
+	QObject::connect(&b1,SIGNAL(clicked()),this,SLOT(yes()));
+	QObject::connect(&b2,SIGNAL(clicked()),this,SLOT(no()));
+    //QObject::connect(&b1,SIGNAL(clicked()),this,SLOT(close()));
+	//QObject::disconnect(&b1,SIGNAL(clicked()),this,SLOT(close()));
+}
+void myWidget::yes(void)
+{
+	QString s = t2.toPlainText();
+	t1.append(s);
+}
+void myWidget::no(void)
+{
+	t2.setText(QString(""));
+}

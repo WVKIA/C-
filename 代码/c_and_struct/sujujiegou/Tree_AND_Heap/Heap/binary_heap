@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct heapstruct 
+{
+    int capacity;
+    int size;
+    int *element;
+};
+struct heapstruct *init(int max)
+{
+    struct heapstruct *h;
+    h  =malloc(sizeof(struct heapstruct ));
+    if(NULL == h)
+    {
+        fprintf(stderr,"can't malloc\n");
+        return NULL;
+    }
+    h->element = malloc((max+1) * sizeof(int));
+    if(h->element == NULL)
+    {
+        fprintf(stderr,"can't malloc\n");
+        return NULL;
+    }
+    h->capacity = max;
+    h->size = 0;
+    h->element[0] = -1;
+    return h;
+}
+void insert(int x,struct heapstruct *h)
+{
+    int i;
+    if(isfull(h))
+    {
+        printf("heapstruct is full\n");
+        return ;
+    }
+    for(i = ++h->size; h->element[i/2] > x; i = i/2 )
+    {
+        h->element[i] = h->element[i/2];
+
+    }
+    h->element[i] = x;
+    printf("%d\n",h->element[i]);
+}
+int deletemin(struct heapstruct *h)
+{
+    int i,child;
+    int minelement,lastelement;
+    if(isempty(h))
+    {
+        fprintf(stderr,"h is empty\n");
+        return h->element[0];
+    }
+    minelement = h->element[1];
+    lastelement = h->element[h->size];
+    h->size = h->size - 1;
+
+    for(i = 1;i*2 <= h->size; i = child)
+    {
+        child = i * 2;
+        if(child != h->size && h->element[child + 1] < h->element[child])
+        {
+            child ++;
+        }
+        if(lastelement > h->element[child])
+        {
+            h->element[i] = h->element[child];
+        }
+        else
+        {
+            break;
+        }
+        
+    }
+    h->element[i] = lastelement;
+    return minelement;
+}
+void show(struct heapstruct *h)
+{
+    int i;
+        for(i = 1; i <= h->size; i++)
+        {
+            printf("%d  ",h->element[i]);
+    printf("this is test\n");
+        }
+}
+int isfull(struct heapstruct *h,int max)
+{
+    return h->size == max;
+}
+int isempty(struct heapstruct *h)
+{
+    return h->size == 0;
+}
+int main()
+{
+    int max = 10;
+    struct heapstruct *h = init(max);
+    insert(4,h);
+    insert(3,h);
+   
+    insert(1,h);
+    insert(9,h);
+    insert(10,h);
+    show(h);
+    return 0;
+}
+

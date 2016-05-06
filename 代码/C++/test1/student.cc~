@@ -1,0 +1,43 @@
+#include "student.h"
+student::student(const char *fin,const char *fpl)
+{
+    int i = 1;
+    int n;
+    unsigned int m;
+    struct node stu;
+    fp = fopen(fin,"r+");
+    if(fp == NULL)
+    {
+        fp = fopen(fin,"w+");
+        if(fp == NULL)
+        {
+            return;
+        }
+    }
+    while(1)
+    {
+        n = fread(&stu,sizeof(struct node),1,fp);
+        if(0 == n)
+        {
+            break;
+        }
+        idhash.insert(pair<string,int>(string(stu.id),i));
+        i++;
+    }
+
+    FILE *fr = fopen(fpl,"r+");
+    if(NULL == fr)
+    {
+        return ;
+    }
+    while(1)
+    {
+        n = fread(&i,sizeof(unsigned int),1,fr);
+        if(0 == n)
+        {
+            break;
+        }
+        vstu.push_back(m);
+    }
+    
+}
